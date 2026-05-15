@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Aion2 Meter - 다운로드</title>
+    <meta name="description" content="아이온 2 전투 분석 도구 - A2Meter 다운로드">
+    <meta property="og:title" content="Aion2 Meter">
+    <meta property="og:description" content="아이온 2 전투 분석 도구">
+    <meta property="og:type" content="website">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', 'Malgun Gothic', sans-serif;
+            background: #0a0e1a;
+            background-image:
+                radial-gradient(circle at 20% 30%, rgba(64, 120, 200, 0.15) 0%, transparent 50%),
+                radial-gradient(circle at 80% 70%, rgba(180, 100, 220, 0.12) 0%, transparent 50%);
+            color: #e8ecf4;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 24px;
+        }
+
+        .container {
+            max-width: 720px;
+            width: 100%;
+            text-align: center;
+        }
+
+        .badge {
+            display: inline-block;
+            padding: 6px 14px;
+            background: rgba(100, 160, 255, 0.12);
+            border: 1px solid rgba(100, 160, 255, 0.3);
+            border-radius: 999px;
+            font-size: 12px;
+            color: #8ab4ff;
+            letter-spacing: 1px;
+            margin-bottom: 24px;
+        }
+
+        h1 {
+            font-size: 64px;
+            font-weight: 700;
+            letter-spacing: -1px;
+            margin-bottom: 16px;
+            background: linear-gradient(135deg, #ffffff 0%, #a8c5ff 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .subtitle {
+            font-size: 18px;
+            color: #9aa5b8;
+            margin-bottom: 48px;
+            line-height: 1.6;
+        }
+
+        .download-section {
+            background: rgba(20, 28, 48, 0.6);
+            border: 1px solid rgba(100, 140, 200, 0.2);
+            border-radius: 16px;
+            padding: 40px;
+            backdrop-filter: blur(10px);
+            margin-bottom: 32px;
+        }
+
+        .download-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 12px;
+            padding: 18px 40px;
+            background: linear-gradient(135deg, #4a7dd9 0%, #6b5ddb 100%);
+            color: #ffffff;
+            text-decoration: none;
+            font-size: 18px;
+            font-weight: 600;
+            border-radius: 12px;
+            transition: transform 0.15s ease, box-shadow 0.15s ease;
+            box-shadow: 0 4px 20px rgba(74, 125, 217, 0.4);
+        }
+
+        .download-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 28px rgba(74, 125, 217, 0.6);
+        }
+
+        .download-btn:active {
+            transform: translateY(0);
+        }
+
+        .download-icon {
+            width: 22px;
+            height: 22px;
+            fill: currentColor;
+        }
+
+        .file-info {
+            margin-top: 20px;
+            font-size: 14px;
+            color: #7a869e;
+        }
+
+        .file-info code {
+            background: rgba(100, 140, 200, 0.15);
+            padding: 2px 8px;
+            border-radius: 4px;
+            font-family: 'Consolas', 'Courier New', monospace;
+            color: #a8c5ff;
+        }
+
+        .links {
+            display: flex;
+            justify-content: center;
+            gap: 24px;
+            margin-top: 24px;
+            flex-wrap: wrap;
+        }
+
+        .links a {
+            color: #8ab4ff;
+            text-decoration: none;
+            font-size: 14px;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            transition: color 0.15s ease;
+        }
+
+        .links a:hover {
+            color: #b8d2ff;
+        }
+
+        .footer {
+            margin-top: 48px;
+            font-size: 13px;
+            color: #5a6478;
+        }
+
+        @media (max-width: 600px) {
+            h1 {
+                font-size: 44px;
+            }
+
+            .subtitle {
+                font-size: 16px;
+            }
+
+            .download-section {
+                padding: 28px 20px;
+            }
+
+            .download-btn {
+                padding: 16px 28px;
+                font-size: 16px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="badge">AION 2 · COMBAT METER</div>
+        <h1>Aion2 Meter</h1>
+        <p class="subtitle">
+            아이온 2 전투 분석 도구<br>
+            실시간 DPS 및 전투 데이터를 확인하세요.
+        </p>
+
+        <div class="download-section">
+            <a href="https://github.com/a2meter/Aion2Meter/releases/latest/download/A2Meter.exe"
+               class="download-btn"
+               download>
+                <svg class="download-icon" viewBox="0 0 24 24">
+                    <path d="M12 3a1 1 0 0 1 1 1v9.59l3.3-3.3a1 1 0 1 1 1.4 1.42l-5 5a1 1 0 0 1-1.4 0l-5-5a1 1 0 1 1 1.4-1.42l3.3 3.3V4a1 1 0 0 1 1-1zm-7 15a1 1 0 0 1 1 1v1h12v-1a1 1 0 1 1 2 0v2a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1v-2a1 1 0 0 1 1-1z"/>
+                </svg>
+                A2Meter.exe 다운로드
+            </a>
+
+            <p class="file-info">
+                Windows · 최신 릴리스 자동 연결
+            </p>
+
+            <div class="links">
+                <a href="https://github.com/a2meter/Aion2Meter/releases/latest" target="_blank" rel="noopener">
+                    릴리스 노트 보기 →
+                </a>
+                <a href="https://github.com/a2meter/Aion2Meter" target="_blank" rel="noopener">
+                    GitHub 저장소 →
+                </a>
+            </div>
+        </div>
+
+        <p class="footer">
+            © Aion2 Meter · 비공식 커뮤니티 도구
+        </p>
+    </div>
+</body>
+</html>
