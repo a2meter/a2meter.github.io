@@ -141,6 +141,150 @@
             color: #b8d2ff;
         }
 
+        .release-notes {
+            text-align: left;
+            margin-top: 40px;
+        }
+
+        .release-notes h2 {
+            font-size: 20px;
+            font-weight: 600;
+            color: #c8d4ec;
+            margin-bottom: 20px;
+            padding-bottom: 12px;
+            border-bottom: 1px solid rgba(100, 140, 200, 0.2);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .release-notes h2::before {
+            content: '';
+            width: 4px;
+            height: 18px;
+            background: linear-gradient(180deg, #4a7dd9, #6b5ddb);
+            border-radius: 2px;
+        }
+
+        .release-status {
+            text-align: center;
+            color: #7a869e;
+            font-size: 14px;
+            padding: 24px;
+        }
+
+        .release {
+            background: rgba(20, 28, 48, 0.5);
+            border: 1px solid rgba(100, 140, 200, 0.15);
+            border-radius: 12px;
+            margin-bottom: 12px;
+            overflow: hidden;
+        }
+
+        .release > summary {
+            padding: 16px 20px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 12px;
+            cursor: pointer;
+            user-select: none;
+            transition: background 0.15s ease;
+            list-style: none;
+        }
+
+        .release > summary::-webkit-details-marker {
+            display: none;
+        }
+
+        .release > summary:hover {
+            background: rgba(100, 140, 200, 0.06);
+        }
+
+        .release-title {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            flex-wrap: wrap;
+        }
+
+        .release-tag {
+            font-size: 15px;
+            font-weight: 600;
+            color: #e8ecf4;
+            font-family: 'Consolas', 'Courier New', monospace;
+        }
+
+        .release-latest-badge {
+            display: inline-block;
+            padding: 2px 8px;
+            background: rgba(74, 217, 138, 0.15);
+            border: 1px solid rgba(74, 217, 138, 0.35);
+            border-radius: 999px;
+            font-size: 11px;
+            color: #6fe3a4;
+            letter-spacing: 0.5px;
+        }
+
+        .release-date {
+            font-size: 13px;
+            color: #7a869e;
+        }
+
+        .release-toggle {
+            color: #7a869e;
+            font-size: 11px;
+            transition: transform 0.2s ease;
+            flex-shrink: 0;
+        }
+
+        .release[open] .release-toggle {
+            transform: rotate(180deg);
+        }
+
+        .release-body {
+            padding: 8px 20px 20px;
+            color: #c8d0e0;
+            font-size: 14px;
+            line-height: 1.75;
+        }
+
+        .release-body h3 {
+            font-size: 13px;
+            font-weight: 600;
+            color: #a8c5ff;
+            margin: 14px 0 6px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .release-body h3:first-child {
+            margin-top: 0;
+        }
+
+        .release-body ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .release-body li {
+            position: relative;
+            padding-left: 16px;
+            margin-bottom: 4px;
+        }
+
+        .release-body li::before {
+            content: '';
+            position: absolute;
+            left: 4px;
+            top: 11px;
+            width: 4px;
+            height: 4px;
+            background: #4a7dd9;
+            border-radius: 50%;
+        }
+
         .footer {
             margin-top: 48px;
             font-size: 13px;
@@ -187,7 +331,7 @@
             </a>
 
             <p class="file-info">
-                Windows · 최신 릴리스 자동 연결
+                Windows x64
             </p>
 
             <div class="links">
@@ -199,6 +343,117 @@
                 </a>
             </div>
         </div>
+
+        <section class="release-notes">
+            <h2>릴리즈 노트</h2>
+
+            <div id="release-list">
+                <p class="release-status">불러오는 중...</p>
+            </div>
+
+            <p style="text-align: center; margin-top: 20px;">
+                <a href="https://github.com/a2meter/Aion2Meter/releases" target="_blank" rel="noopener"
+                   style="color: #8ab4ff; text-decoration: none; font-size: 14px;">
+                    전체 릴리즈 기록 →
+                </a>
+            </p>
+        </section>
+
+        <script>
+            (function () {
+                const API_URL = 'https://api.github.com/repos/a2meter/Aion2Meter/releases?per_page=10';
+                const container = document.getElementById('release-list');
+
+                function escapeHtml(str) {
+                    return str.replace(/[&<>"']/g, ch => ({
+                        '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;'
+                    }[ch]));
+                }
+
+                function renderBody(markdown) {
+                    if (!markdown || !markdown.trim()) return '<p style="color:#7a869e">변경 사항 정보가 없습니다.</p>';
+
+                    const lines = markdown.replace(/\r\n/g, '\n').split('\n');
+                    let html = '';
+                    let inList = false;
+
+                    const closeList = () => { if (inList) { html += '</ul>'; inList = false; } };
+
+                    for (let raw of lines) {
+                        const line = raw.trim();
+                        if (!line) { closeList(); continue; }
+
+                        if (/^[-*]\s+/.test(line)) {
+                            if (!inList) { html += '<ul>'; inList = true; }
+                            html += `<li>${escapeHtml(line.replace(/^[-*]\s+/, ''))}</li>`;
+                        } else if (/^#{1,6}\s+/.test(line)) {
+                            closeList();
+                            html += `<h3>${escapeHtml(line.replace(/^#{1,6}\s+/, ''))}</h3>`;
+                        } else {
+                            closeList();
+                            if (line.length < 30 && !/[.!?。]$/.test(line)) {
+                                html += `<h3>${escapeHtml(line)}</h3>`;
+                            } else {
+                                html += `<p>${escapeHtml(line)}</p>`;
+                            }
+                        }
+                    }
+                    closeList();
+                    return html;
+                }
+
+                function formatDate(iso) {
+                    if (!iso) return '';
+                    return iso.slice(0, 10);
+                }
+
+                function render(releases) {
+                    if (!releases.length) {
+                        container.innerHTML = '<p class="release-status">릴리즈가 없습니다.</p>';
+                        return;
+                    }
+
+                    container.innerHTML = releases.map((r, idx) => {
+                        const name = escapeHtml(r.name || r.tag_name || '');
+                        const date = formatDate(r.published_at);
+                        const isLatest = idx === 0;
+                        const latestBadge = isLatest ? '<span class="release-latest-badge">LATEST</span>' : '';
+                        const openAttr = isLatest ? ' open' : '';
+
+                        return `
+                            <details class="release"${openAttr}>
+                                <summary>
+                                    <div class="release-title">
+                                        <span class="release-tag">${name}</span>
+                                        ${latestBadge}
+                                        <span class="release-date">${date}</span>
+                                    </div>
+                                    <span class="release-toggle">▼</span>
+                                </summary>
+                                <div class="release-body">${renderBody(r.body || '')}</div>
+                            </details>
+                        `;
+                    }).join('');
+                }
+
+                fetch(API_URL, { headers: { 'Accept': 'application/vnd.github+json' } })
+                    .then(res => {
+                        if (!res.ok) throw new Error('HTTP ' + res.status);
+                        return res.json();
+                    })
+                    .then(data => render(data.filter(r => !r.draft).slice(0, 8)))
+                    .catch(err => {
+                        container.innerHTML = `
+                            <p class="release-status">
+                                릴리즈 정보를 불러오지 못했습니다.
+                                <a href="https://github.com/a2meter/Aion2Meter/releases"
+                                   target="_blank" rel="noopener"
+                                   style="color: #8ab4ff;">GitHub에서 직접 확인 →</a>
+                            </p>`;
+                        console.error('release fetch failed:', err);
+                    });
+            })();
+        </script>
 
         <p class="footer">
             © Aion2 Meter · 비공식 커뮤니티 도구
